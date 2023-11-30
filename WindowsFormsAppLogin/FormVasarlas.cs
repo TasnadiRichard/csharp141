@@ -46,7 +46,7 @@ namespace WindowsFormsAppLogin
                 {
                     connection.Open();
                 }
-                command.CommandText = "SELECT `termekid`, `termeknev`, `ar`, `db`,  FROM `vasarlo` WHERE 1 ORDER BY termeknev";
+                command.CommandText = "SELECT `termekid`, `termeknev`, `ar`, `db`  FROM `termek` WHERE 1 ORDER BY termeknev";
                 using (MySqlDataReader dr = command.ExecuteReader())
                 {
                     while (dr.Read())
@@ -75,6 +75,23 @@ namespace WindowsFormsAppLogin
             textBox_termeknev.Text = kivalasztottTermek.termeknev.ToString();
             textBox_ar.Text = kivalasztottTermek.ar.ToString();
             numericUpDown_db.Value = kivalasztottTermek.db;
+        }
+
+        private void button_vasarlas_Click(object sender, EventArgs e)
+        {
+            if (listBox_termekek.SelectedIndex < 0)
+            {
+                return;
+            }
+            termek KivalasztottTermek = (termek)listBox_termekek.SelectedItem;
+
+            string KosarElem = $"{KivalasztottTermek.termeknev} - {KivalasztottTermek.db} - {KivalasztottTermek.ar} Ft/db";
+            listBox_kosar.Items.Add(KosarElem);
+        }
+
+        private void textBox_vegosszeg_TextChanged(object sender, EventArgs e)
+        {
+      
         }
     }
 }

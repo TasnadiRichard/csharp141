@@ -38,6 +38,9 @@
             this.textBox_ar = new System.Windows.Forms.TextBox();
             this.numericUpDown_db = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.button_vasarlas = new System.Windows.Forms.Button();
+            this.textBox_vegosszeg = new System.Windows.Forms.TextBox();
+            this.listBox_kosar = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_db)).BeginInit();
             this.SuspendLayout();
             // 
@@ -124,11 +127,41 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "DB";
             // 
+            // button_vasarlas
+            // 
+            this.button_vasarlas.Location = new System.Drawing.Point(130, 313);
+            this.button_vasarlas.Name = "button_vasarlas";
+            this.button_vasarlas.Size = new System.Drawing.Size(75, 23);
+            this.button_vasarlas.TabIndex = 9;
+            this.button_vasarlas.Text = "Vásárlás";
+            this.button_vasarlas.UseVisualStyleBackColor = true;
+            this.button_vasarlas.Click += new System.EventHandler(this.button_vasarlas_Click);
+            // 
+            // textBox_vegosszeg
+            // 
+            this.textBox_vegosszeg.Location = new System.Drawing.Point(129, 353);
+            this.textBox_vegosszeg.Name = "textBox_vegosszeg";
+            this.textBox_vegosszeg.Size = new System.Drawing.Size(100, 20);
+            this.textBox_vegosszeg.TabIndex = 10;
+            this.textBox_vegosszeg.TextChanged += new System.EventHandler(this.textBox_vegosszeg_TextChanged);
+            // 
+            // listBox_kosar
+            // 
+            this.listBox_kosar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.listBox_kosar.FormattingEnabled = true;
+            this.listBox_kosar.Location = new System.Drawing.Point(680, 0);
+            this.listBox_kosar.Name = "listBox_kosar";
+            this.listBox_kosar.Size = new System.Drawing.Size(120, 450);
+            this.listBox_kosar.TabIndex = 11;
+            // 
             // FormVasarlas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.listBox_kosar);
+            this.Controls.Add(this.textBox_vegosszeg);
+            this.Controls.Add(this.button_vasarlas);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.numericUpDown_db);
             this.Controls.Add(this.textBox_ar);
@@ -159,5 +192,8 @@
         private System.Windows.Forms.TextBox textBox_ar;
         private System.Windows.Forms.NumericUpDown numericUpDown_db;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button_vasarlas;
+        private System.Windows.Forms.TextBox textBox_vegosszeg;
+        private System.Windows.Forms.ListBox listBox_kosar;
     }
 }
