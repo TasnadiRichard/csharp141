@@ -75,18 +75,53 @@ namespace WindowsFormsAppLogin
             textBox_termeknev.Text = kivalasztottTermek.termeknev.ToString();
             textBox_ar.Text = kivalasztottTermek.ar.ToString();
             numericUpDown_db.Value = kivalasztottTermek.db;
+            numericUpDown_db.Maximum = kivalasztottTermek.db;
+            kivalasztottTermek.termekid = 0;
         }
 
         private void button_vasarlas_Click(object sender, EventArgs e)
         {
-            if (listBox_termekek.SelectedIndex < 0)
+            //-- erősítse meg a vásárlási szándékot
+            string szoveg = $"Valóban meg akar vásárolni {numericUpDown_db.Value} db {textBox_termeknev.Text} terméket {numericUpDown_db.Value = numericUpDown_db.Value} Ft értékben?";
+            if (MessageBox.Show(szoveg,"megerősítés", MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.No) 
             {
-                return;
-            }
-            termek KivalasztottTermek = (termek)listBox_termekek.SelectedItem;
 
-            string KosarElem = $"{KivalasztottTermek.termeknev} - {KivalasztottTermek.db} - {KivalasztottTermek.ar} Ft/db";
-            listBox_kosar.Items.Add(KosarElem);
+            }
+            MySqlTransaction tr = null;
+
+            try
+            {
+                tr = Program.connection.BeginTransaction();
+                Program.command.Transaction = tr; //-- Start transaction 
+                                                  // -- vásárlás adatainak rögzítése
+                Program.command.CommandText = "INSERT INTO `vasarlas` (`vasarloid`, `termekid`, `datum`, `vasaroltdb`) VALUES(@vasarloid, '@termekid', '@vasaroltdb')";
+                Program.command.Parameters.Clear();
+                Program.command.Parameters.AddWithValue("@vasarloid", Program.UserID);
+                Program.command.Parameters.AddWithValue("@termekid", textBox_termekid.Text);
+                Program.command.Parameters.AddWithValue("@vasaroltdb", numericUpDown_db.Value);
+                Program.command.ExecuteNonQuery();
+                //-- a raktárkészlet aktualizálása az eladott mennyiséggel
+                Program.command.CommandText = $"UPDATE `termek` SET `db`= db-{numericUpDown_db.Value} WHERE `termekid` = {textBox_termekid.Text}";
+                Program.command.ExecuteNonQuery();
+                tr.Commit();
+                textBox_termekid.Text = "";
+                numericUpDown_raktarkeszlet.Value = numericUpDown_raktarkeszlet.Value;
+                numericUpDown_db.Value = numericUpDown_db.Value;
+                textBox_termeknev.Text = textBox_termeknev.Text;
+                MessageBox.Show("Sikeres vásárlás!");
+            }
+            catch (MySqlException ex)
+            {
+                tr.Rollback();
+                MessageBox.Show("Sikertelen vásárlás!");
+            }
+            updateTermekekLista();
+        }
+                
+
+        private void updateTermekekLista()
+        {
+            throw new NotImplementedException();
         }
 
         private void textBox_vegosszeg_TextChanged(object sender, EventArgs e)
